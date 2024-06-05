@@ -1,10 +1,11 @@
 - name: Kubernetes Dependencies
   hosts: leader
-  remote_user: root
-  become: yes
+  vars:
+    services:
+      - service1
+      - service2
+      - service3
   tasks:
-    - name: Test url_get
-      get_url:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        dest: /root/test.txt
-        force: true
+    - name: Test loop
+      shell: "echo {{ item }}"
+      loop: "{{ services }}"
